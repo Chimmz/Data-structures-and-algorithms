@@ -73,7 +73,25 @@ function firstRecurringChar(array) {
       mySet.add(elem);
    }
 }
-// console.log(firstRecurringChar([1, 2, 4, 4, 2, 4, 5, 2, 6, 4, 7]));
+// O(2n) = O(n)
+function firstNonRecurringChar(str) {
+   const map = {};
+   let firstNonRecurring = null;
+
+   for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      if (!map[char]) map[char] = 1;
+      else map[char] += 1;
+   }
+
+   for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      if (map[char] === 1) return char;
+   }
+   return firstNonRecurring;
+}
+
+// console.log(firstNonRecurringChar('BFGAECBCDA'));
 
 function elementWithHighestCount(array) {
    const map = {};
@@ -124,3 +142,17 @@ function hasPairWithSum(array, sum) {
    return array.some(elem => complements.has(elem));
 }
 // console.log(hasPairWithSum([2, 4, 6, 2, 0], 6));
+
+function getPairsWithSum(array, sum) {
+   const pairsArray = [];
+   const arrayUnique = Array.from(new Set(array));
+   const map = {};
+
+   for (elem of arrayUnique) {
+      if (!map[elem]) map[elem] = sum - elem;
+      if (map[sum - elem]) pairsArray.push(new Set([elem, sum - elem]));
+   }
+   return pairsArray;
+}
+
+console.log(getPairsWithSum([4, 5], 7));

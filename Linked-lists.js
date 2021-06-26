@@ -11,7 +11,6 @@ class LinkedList {
    }
 
    _hasOnlyOneElement = () => this.head === this.tail;
-   // && Boolean(this.head) && Boolean(this.tail)
    _increaseLength() {
       this.length++;
    }
@@ -75,6 +74,7 @@ class LinkedList {
 
    insert(index, value) {
       if (index < 0) return this._print();
+      if (index === 0) return this.prepend(value);
       if (index >= this.length) return this.append(value);
 
       const newNode = new Node(value);
@@ -129,13 +129,13 @@ class LinkedList {
 
 const list = new LinkedList();
 
-//prettier-ignore
 list
    .append(4)
    .append(8)
    .append(30)
    .insert(2, 27)
-// .remove(1)
-.reverse()
+   // .remove(1)
+   .reverse()
+   .insert(0, 51);
 
 console.log('\n', list);
