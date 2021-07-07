@@ -1,10 +1,12 @@
+import { Queue } from '../Queues/with-linked-lists.mjs';
+
 function Node(value) {
    this.data = value;
    this.right = null;
    this.left = null;
 }
 
-class BinarySearchTree {
+export class BinarySearchTree {
    constructor() {
       this.root = null;
    }
@@ -15,23 +17,25 @@ class BinarySearchTree {
          this.root = newNode;
          return this;
       }
+
       let itr = this.root;
       while (true) {
          if (value > itr.data) {
-            if (!itr.right) {
+            if (itr.right) itr = itr.right;
+            else {
                itr.right = newNode;
                return this;
             }
-            itr = itr.right;
          } else {
-            if (!itr.left) {
+            if (itr.left) itr = itr.left;
+            else {
                itr.left = newNode;
                return this;
             }
-            itr = itr.left;
          }
       }
    }
+
    lookup(value) {
       let itr = this.root;
       if (!itr) return false;
@@ -43,11 +47,26 @@ class BinarySearchTree {
       }
       return false;
    }
+
+   traverseBFT() {
+      const result = [];
+      const queue = new Queue();
+      let node = this.root;
+
+      while (node) {
+         if (node.left) queue.enqueue(node.left.data);
+         if (node.right) queue.enqueue(node.right.data);
+         result.push(node.data);
+         node = queue.front;
+      }
+      console.log(result);
+   }
 }
 
 const tree = new BinarySearchTree();
 tree.insert(2).insert(3).insert(1);
+tree.traverseBFT();
 
-console.log(`3 ${tree.lookup(3) ? 'is found' : 'not found'}`);
+// console.log(`3 ${tree.lookup(3) ? 'is found' : 'not found'}`);
 
-console.log(tree);
+// console.log(tree);

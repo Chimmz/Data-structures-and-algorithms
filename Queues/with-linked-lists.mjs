@@ -3,7 +3,7 @@ function Node(value) {
    this.next = null;
 }
 
-class Queue {
+export class Queue {
    constructor() {
       this.front = null;
       this.back = null;
@@ -59,6 +59,6 @@ class Queue {
 }
 
 const queue = new Queue();
-queue.enqueue(5).enqueue(8).enqueue(18).dequeue().dequeue().dequeue().dequeue();
+// queue.enqueue(5).enqueue(8).enqueue(18).dequeue().dequeue().dequeue().dequeue();
 
-console.log(queue);
+// console.log(queue);
