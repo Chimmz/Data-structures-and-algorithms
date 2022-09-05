@@ -10,7 +10,7 @@ class Stack {
       this.length = 0;
    }
 
-   getTopElement = () => this.top.data;
+   getTop = () => this.top.data;
 
    isEmpty = () => !this.top && !this.bottom && !this.length;
 
@@ -27,26 +27,46 @@ class Stack {
    }
 
    pushMany(...values) {
-      values.forEach(value => {
-         this.push(value);
-      });
+      values.forEach(value => this.push(value));
    }
 
    pop() {
-      // If stack is empty
       if (this.isEmpty()) return;
       // If one element left
       if (this.top == this.bottom) this.top = this.bottom = null;
       else {
          let itr = this.bottom;
-         while (itr.next != this.top) itr = itr.next;
+         const nodeToPop = this.top;
 
+         while (itr.next != this.top) itr = itr.next;
          this.top = itr;
          this.top.next = null;
+
+         return nodeToPop;
       }
 
       this._reduceLength();
-      return this.print();
+   }
+   // To reorder from L1 -> L2 -> L3 -> L(n-1) -> ... -> L(n)
+   // into L1 -> L(n) -> L2 -> L(n-2) -> L3 -> L(n-3) -> ...
+   reOrder() {
+      const middleIndex =
+         this.length % 2 == 0 ? this.length / 2 : Math.floor(this.length / 2);
+
+      let middleNode = this.bottom;
+
+      for (let i = 1; i <= middleIndex; i++) middleNode = middleNode.next;
+      // console.log('middleNode: ', middleNode);
+      let itr = this.bottom;
+
+      while (this.top != middleNode) {
+         let nextNode = itr.next;
+         let lastNode = this.pop();
+
+         lastNode.next = nextNode;
+         itr.next = lastNode;
+         itr = nextNode;
+      }
    }
 
    _increaseLength() {
@@ -70,8 +90,9 @@ class Stack {
 }
 
 const stack = new Stack();
-stack.push(3).push(12).push(25).pop().pop().pop();
-stack.pushMany(1, 4);
-
-console.log(stack.getTopElement());
+// stack.push(2).push(4).push(1).push(3).push(5)
+stack.pushMany(2, 9, 17, 4, 1, 6);
 console.log(stack);
+// console.log(stack.pop());
+stack.reOrder();
+stack.print();

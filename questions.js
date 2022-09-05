@@ -110,23 +110,21 @@ function hasPairWithSum(array, sum) {
    if (array.some(elem => typeof elem !== 'number')) return;
    const complements = new Set();
 
-   array.forEach(elem => {
-      complements.add(sum - elem);
-   });
+   array.forEach(elem => complements.add(sum - elem));
    return array.some(elem => complements.has(elem));
 }
 // console.log(hasPairWithSum([2, 4, 6, 2, 0], 6));
 
 function getPairsWithSum(array, sum) {
-   const pairsArray = [];
+   const pairs = [];
    const arrayUnique = Array.from(new Set(array));
    const map = {};
 
    for (elem of arrayUnique) {
       if (!map[elem]) map[elem] = sum - elem;
-      if (map[sum - elem]) pairsArray.push(new Set([elem, sum - elem]));
+      if (map[sum - elem]) pairs.push(new Set([elem, sum - elem]));
    }
-   return pairsArray;
+   return pairs;
 }
 
 // console.log(getPairsWithSum([4, 5], 7));
